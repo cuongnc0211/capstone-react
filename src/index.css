@@ -206,4 +206,17 @@ p {
     flex-direction: column;
     align-content: space-around;
   }
+
+  .nav-container {
+    margin: auto;
+    margin-top: auto;
+    margin-left: 0px;
+    padding-left: 10px;
+  }
+
+  .nav-item {
+    display: inline-block;
+    margin: auto;
+    cursor: pointer;
+  }
 }

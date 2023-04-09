@@ -14,7 +14,7 @@ function NavBar() {
             <Link to='/menu' className='nav-link'>Menu</Link>
           </li>
           <li className="nav-item">
-            <Link to='/reservation' className='nav-link'>Reservation</Link>
+            <Link to='/reservation' className='nav-link'>Book</Link>
           </li>
           <li className="nav-item">
             <Link to='/about' className='nav-link'>About</Link>
