@@ -1,5 +1,7 @@
 import React from 'react';
 import ReservationForm from './ReservationForm';
+import { fetchAPI, submitAPI } from './API.js';
+
 import { useState, useReducer } from 'react';
 
 const Reservation = () => {
@@ -7,6 +9,7 @@ const Reservation = () => {
   const [time, setTime] = useState('17:00')
   const [guests, setGuests] = useState(1)
   const [occasion, setOccasion] = useState('Birthday')
+  const [reservated, setReservated] = useState(false)
 
   // Define timesReducer function to handle state updates for available times
   function timesReducer(state, action) {
@@ -24,6 +27,12 @@ const Reservation = () => {
 
   const [availableTimes, dispatch] = useReducer(timesReducer, initializeTimes());
 
+  function submitReservation(e) {
+    e.preventDefault();
+    let result = submitAPI({date: date, time: time, guests: guests, occasion: occasion})
+    setReservated(result)
+  }
+
   function changeDate(value) {
     console.log(`Date value: ${value}`)
     setDate(value);
@@ -32,7 +41,9 @@ const Reservation = () => {
 
   function updateTime(date) {
     console.log(date)
-    const times = ['17:00', '18:00', '19:00']
+
+    date = new Date(date)
+    const times = fetchAPI(date)
     dispatch({type: 'UPDATE_TIMES', payload: times})
   }
 
@@ -56,7 +67,18 @@ const Reservation = () => {
       <section>
         <h1>Reservation Page</h1>
 
-        <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} />
+        {reservated ? (
+          <React.Fragment>
+            <h3>Congratulation! You have successfully booked your table.</h3>
+            <p>Your reservation detail:</p>
+            <p>Date: {date}</p>
+            <p>Time: {time}</p>
+            <p>Guests: {guests}</p>
+            <p>Occasion: {occasion}</p>
+          </React.Fragment>
+        ) : (
+          <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} submitReservation={submitReservation} />
+        )}
       </section>
     </main>
   );

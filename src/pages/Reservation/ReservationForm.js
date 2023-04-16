@@ -19,6 +19,10 @@ const ReservationForm = (props) => {
   const handleChangeOcassion = () => {
     props.changeOcassion(ocassionRef.current.value)
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.submitReservation(e)
+  }
 
   return (
     <form style={{display: 'grid', maxWidth: 200, gap: 20, marginBottom: 20}}>
@@ -41,7 +45,7 @@ const ReservationForm = (props) => {
         <option>Anniversary</option>
         <option>Normal dining</option>
       </select>
-      <input type="submit" defaultValue="Make Your reservation" />
+      <input type="submit" defaultValue="Make Your reservation" onClick={(e) => { handleSubmit(e) } } />
     </form>
   );
 };
