@@ -1,6 +1,6 @@
 import React from 'react';
 import ReservationForm from './ReservationForm';
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 
 const Reservation = () => {
   const [date, setDate] = useState(null)
@@ -8,9 +8,32 @@ const Reservation = () => {
   const [guests, setGuests] = useState(1)
   const [occasion, setOccasion] = useState('Birthday')
 
+  // Define timesReducer function to handle state updates for available times
+  function timesReducer(state, action) {
+    switch (action.type) {
+      case 'UPDATE_TIMES':
+        return action.payload;
+      default:
+        return state;
+    }
+  }
+
+  function initializeTimes() {
+    return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+  }
+
+  const [availableTimes, dispatch] = useReducer(timesReducer, initializeTimes());
+
   function changeDate(value) {
     console.log(`Date value: ${value}`)
     setDate(value);
+    updateTime(value)
+  }
+
+  function updateTime(date) {
+    console.log(date)
+    const times = ['17:00', '18:00', '19:00']
+    dispatch({type: 'UPDATE_TIMES', payload: times})
   }
 
   function changeTime(value) {
@@ -33,7 +56,7 @@ const Reservation = () => {
       <section>
         <h1>Reservation Page</h1>
 
-        <ReservationForm changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} />
+        <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} />
       </section>
     </main>
   );
