@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -37,7 +38,9 @@ const Home = () => {
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nibh neque, malesuada at libero et, dictum tincidunt eros. Sed elementum, diam ut feugiat fringilla, risus purus gravida quam.
             </p><br />
-            <p><a href="#">Book a table</a></p>
+            <p>
+              <Link to='/reservation'>Book a table</Link>
+            </p>
           </div></article>
         <article>
           <div className="article-image-container">

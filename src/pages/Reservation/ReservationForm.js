@@ -25,27 +25,36 @@ const ReservationForm = (props) => {
   }
 
   return (
-    <form style={{display: 'grid', maxWidth: 200, gap: 20, marginBottom: 20}}>
-      <label htmlFor="res-date">Choose date</label>
-      <input type="date" ref={dateRef} id="res-date" onChange={handleChangeDate} />
-      <label htmlFor="res-time">Choose time</label>
-      <select id="res-time" ref={timeRef} onChange={handleChangeTime}>
-        { 
+    <form style={{display: 'grid', maxWidth: 500, gap: 10, marginBottom: 20, marginTop: '30px'}}>
+      <label className='label-control' htmlFor="res-date">Choose date</label>
+      <input className='form-control' type="date" ref={dateRef} id="res-date" onChange={handleChangeDate} />
+      <br />
+
+      <label className='label-control' htmlFor="res-time">Choose time</label>
+      <select className='form-control' id="res-time" ref={timeRef} onChange={handleChangeTime}>
+        {
           props.availableTimes.map((time) => (
               <option key={time} value={time}>{time}</option>
             )
           )
         }
       </select>
-      <label htmlFor="guests">Number of guests</label>
-      <input type="number" placeholder={1} min={1} max={10} id="guests" ref={guestsRef} onChange={handleChangeGuests} />
-      <label htmlFor="occasion">Occasion</label>
-      <select id="occasion" ref={ocassionRef} onChange={handleChangeOcassion}>
+      <br />
+
+      <label className='label-control' htmlFor="guests">Number of guests</label>
+      <input className='form-control' type="number" placeholder={1} min={1} max={10} id="guests" ref={guestsRef} onChange={handleChangeGuests} />
+      <br />
+
+      <label className='label-control' htmlFor="occasion">Occasion</label>
+      <select className='form-control' id="occasion" ref={ocassionRef} onChange={handleChangeOcassion}>
         <option>Birthday</option>
         <option>Anniversary</option>
         <option>Normal dining</option>
       </select>
-      <input type="submit" defaultValue="Make Your reservation" onClick={(e) => { handleSubmit(e) } } />
+      <br />
+
+      <input className='btn btn-success' type="submit" defaultValue="Make Your reservation" onClick={(e) => { handleSubmit(e) } } />
+      <br />
     </form>
   );
 };

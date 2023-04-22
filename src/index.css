@@ -219,4 +219,15 @@ p {
     margin: auto;
     cursor: pointer;
   }
+
+  .form-control {
+    height: 2.5rem;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .label-control {
+    font-weight: bold;
+    font-size: large;
+  }
 }

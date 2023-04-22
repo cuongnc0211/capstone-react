@@ -1,7 +1,7 @@
 import React from 'react';
 import ReservationForm from './ReservationForm';
 import { fetchAPI, submitAPI } from './API.js';
-
+import { useNavigate } from "react-router-dom";
 import { useState, useReducer } from 'react';
 
 const Reservation = () => {
@@ -9,7 +9,7 @@ const Reservation = () => {
   const [time, setTime] = useState('17:00')
   const [guests, setGuests] = useState(1)
   const [occasion, setOccasion] = useState('Birthday')
-  const [reservated, setReservated] = useState(false)
+  const navigate = useNavigate();
 
   // Define timesReducer function to handle state updates for available times
   function timesReducer(state, action) {
@@ -30,7 +30,9 @@ const Reservation = () => {
   function submitReservation(e) {
     e.preventDefault();
     let result = submitAPI({date: date, time: time, guests: guests, occasion: occasion})
-    setReservated(result)
+    if(result === true) {
+      navigate('/confirmed_booking')
+    }
   }
 
   function changeDate(value) {
@@ -66,19 +68,7 @@ const Reservation = () => {
     <main>
       <section>
         <h1>Book a Table</h1>
-
-        {reservated ? (
-          <React.Fragment>
-            <h3>Congratulation! You have successfully booked your table.</h3>
-            <p>Your reservation detail:</p>
-            <p>Date: {date}</p>
-            <p>Time: {time}</p>
-            <p>Guests: {guests}</p>
-            <p>Occasion: {occasion}</p>
-          </React.Fragment>
-        ) : (
-          <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} submitReservation={submitReservation} />
-        )}
+        <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} submitReservation={submitReservation} />
       </section>
     </main>
   );
