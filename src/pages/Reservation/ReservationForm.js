@@ -29,7 +29,7 @@ const ReservationForm = (props) => {
       <label htmlFor="res-date">Choose date</label>
       <input type="date" ref={dateRef} id="res-date" onChange={handleChangeDate} />
       <label htmlFor="res-time">Choose time</label>
-      <select id="res-time " ref={timeRef} onChange={handleChangeTime}>
+      <select id="res-time" ref={timeRef} onChange={handleChangeTime}>
         { 
           props.availableTimes.map((time) => (
               <option key={time} value={time}>{time}</option>

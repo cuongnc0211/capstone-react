@@ -65,7 +65,7 @@ const Reservation = () => {
   return (
     <main>
       <section>
-        <h1>Reservation Page</h1>
+        <h1>Book a Table</h1>
 
         {reservated ? (
           <React.Fragment>
