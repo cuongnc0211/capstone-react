@@ -9,6 +9,7 @@ const Reservation = () => {
   const [time, setTime] = useState('17:00')
   const [guests, setGuests] = useState(1)
   const [occasion, setOccasion] = useState('Birthday')
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   // Define timesReducer function to handle state updates for available times
@@ -35,28 +36,69 @@ const Reservation = () => {
     }
   }
 
-  function changeDate(value) {
-    console.log(`Date value: ${value}`)
-    setDate(value);
-    updateTime(value)
-  }
-
   function updateTime(date) {
-    console.log(date)
-
     date = new Date(date)
     const times = fetchAPI(date)
     dispatch({type: 'UPDATE_TIMES', payload: times})
   }
 
+  function changeDate(value) {
+    const date = new Date(value)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if(date >= today ) {
+      setDate(date);
+      updateTime(value)
+      const {date: _, ...newErrors} = errors // remove the date error
+      setErrors(newErrors);
+    } else {
+      let newErrors = {...errors}
+      newErrors['date'] = 'Please do not choose past date.'
+      setErrors(newErrors);
+    }
+  }
+
   function changeTime(value) {
-    console.log(`Time value: ${value}`)
-    setTime(value);
+    const today = new Date
+
+    const timeString = value;
+    const [hours, minutes] = timeString.split(':');
+
+    const selectedTime = new Date();
+    selectedTime.setHours(hours);
+    selectedTime.setMinutes(minutes);
+    selectedTime.setHours(selectedTime.getHours() - 1);
+
+    if(date.toDateString() === today.toDateString() && selectedTime < today) {
+      let newErrors = {...errors}
+      newErrors['time'] = 'Please reserve table at least 1 hour from now.'
+      setErrors(newErrors);
+    } else {
+      setTime(value);
+      const {time: _, ...newErrors} = errors // remove the date error
+      setErrors(newErrors);
+    }
   }
 
   function changeGuests(value) {
-    console.log(`Guests value: ${value}`)
-    setGuests(value);
+    if(value === '') {
+      let newErrors = {...errors}
+      newErrors['guests'] = 'Guests number can not be blank.'
+      setErrors(newErrors);
+      return;
+    }
+
+    const guests = parseInt(value);
+    if(guests > 0) {
+      setGuests(value);
+      const {guests: _, ...newErrors} = errors // remove the date error
+      setErrors(newErrors);
+    } else {
+      let newErrors = {...errors}
+      newErrors['guests'] = 'Please input guest number greater than zero.'
+      setErrors(newErrors);
+    }
   }
 
   function changeOcassion(value) {
@@ -68,7 +110,7 @@ const Reservation = () => {
     <main>
       <section>
         <h1>Book a Table</h1>
-        <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} submitReservation={submitReservation} />
+        <ReservationForm availableTimes={availableTimes} changeDate={changeDate} changeTime={changeTime} changeGuests={changeGuests} changeOcassion={changeOcassion} submitReservation={submitReservation} errors={errors} />
       </section>
     </main>
   );
