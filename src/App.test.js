@@ -1,15 +1,25 @@
 import { render, screen } from '@testing-library/react';
 import Reservation from './pages/Reservation';
 import {within, fireEvent, waitFor} from '@testing-library/dom'
+import { MemoryRouter } from 'react-router-dom';
+
 
 test('Renders the Reservation Page', () => {
-  render(<Reservation />);
+  render(
+    <MemoryRouter>
+      <Reservation />
+    </MemoryRouter>
+  );
   const titleElement = screen.getByText(/Book a Table/);
   expect(titleElement).toBeInTheDocument();
 });
 
 test('Renders correct intital available time', () => {
-  render(<Reservation />);
+  render(
+    <MemoryRouter>
+      <Reservation />
+    </MemoryRouter>
+  );
 
   const selectElement = screen.getByRole('combobox', { name: /Choose time/i });
   expect(selectElement).toBeInTheDocument();
@@ -21,13 +31,17 @@ test('Renders correct intital available time', () => {
 });
 
 test('Update available time', () => {
-  render(<Reservation />);
+  render(
+    <MemoryRouter>
+      <Reservation />
+    </MemoryRouter>
+  );
 
   const selectDate= screen.getByLabelText(/Choose date/i);
   expect(selectDate).toBeInTheDocument();
 
-  fireEvent.change(selectDate, { target: { value: '2023-05-01' } });
-  waitFor(() => expect(fetchAPI).toHaveBeenCalledWith(new Date('2023-05-01')));
+  fireEvent.change(selectDate, { target: { value: '2023-12-01' } });
+  waitFor(() => expect(fetchAPI).toHaveBeenCalledWith(new Date('2023-12-01')));
   const selectElement = screen.getByRole('combobox', { name: /Choose time/i });
   expect(selectElement).toBeInTheDocument();
 
