@@ -60,6 +60,7 @@ const ReservationForm = (props) => {
         type="submit"
         className="btn btn-success"
         disabled={Object.keys(props.errors).length > 0 ? true : undefined}
+        aria-label="On Click"
       >
         Make Your reservation
       </button>
